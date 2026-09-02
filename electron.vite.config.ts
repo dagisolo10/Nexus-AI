@@ -10,6 +10,14 @@ export default defineConfig({
                 "@shared": resolve(__dirname, "src/shared"),
             },
         },
+        build: {
+            rollupOptions: {
+                external: ["@prisma/client", "@prisma/adapter-libsql", "@libsql/client", "@libsql/win32-x64-msvc"],
+            },
+            externalizeDeps: {
+                exclude: ["@prisma/client", "@prisma/adapter-libsql"],
+            },
+        },
     },
     preload: {
         resolve: {
