@@ -1,5 +1,3 @@
-import icon from "../../resources/icon.png?asset";
-
 import { electronApp, is, optimizer } from "@electron-toolkit/utils";
 import { app, BrowserWindow, shell } from "electron";
 import { join } from "path";
@@ -10,7 +8,6 @@ function createWindow(): void {
         height: 670,
         show: false,
         autoHideMenuBar: true,
-        ...(process.platform === "linux" ? { icon } : {}),
         webPreferences: {
             preload: join(__dirname, "../preload/index.js"),
             sandbox: false,
@@ -31,7 +28,7 @@ function createWindow(): void {
     }
 }
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
     electronApp.setAppUserModelId("com.nexusai.electron");
 
     app.on("browser-window-created", (_, window) => optimizer.watchWindowShortcuts(window));
