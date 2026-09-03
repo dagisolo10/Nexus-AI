@@ -1,0 +1,36 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "sqlite"
+}
+
+model Session {
+    id        String    @id @default(uuid())
+    title     String
+    path      String?
+    createdAt DateTime  @default(now())
+    updatedAt DateTime  @updatedAt
+    messages  Message[]
+}
+
+model Message {
+    id        String   @id @default(uuid())
+    content   String
+    role      String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    sources   Source[]
+    sessionId String
+    session   Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+}
+
+model Source {
+    id        String  @id @default(uuid())
+    filePath  String
+    fileName  String?
+    snippet   String?
+    messageId String
+    message   Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+}
